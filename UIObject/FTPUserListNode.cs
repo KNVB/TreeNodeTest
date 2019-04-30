@@ -4,18 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace UIObject
 {
-    public class AdminUserAdministrationNode : Node
+    public class FTPUserListNode : Node
     {
-        public AdminUserAdministrationNode(string json, AdminServer adminServer) : base(json, adminServer)
+        public FTPUserListNode(string json, AdminServer adminServer) : base(json, adminServer)
         {
+            nodeType = NodeType.FTPUserListNode;
             dynamic obj = JsonConvert.DeserializeObject<dynamic>(json);
-            this.nodeType = NodeType.AdminUserAdministrationNode;
             this.Text = obj.Text;
             this.Name = obj.Name;
-        }        
+        }
     }
 }

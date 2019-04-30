@@ -1,56 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
-using System.Web.Script.Serialization;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 namespace UIObject
 {
     public class UIConfig
     {
-        UIConfigParameter uIConfigParameter = null;
-        public UIConfig()
+        Dictionary<string, dynamic> values = null;
+        AdminServer adminServer;
+        public UIConfig(AdminServer adminServer)
         {
+            this.adminServer= adminServer;
             using (StreamReader streamReader = new StreamReader("UIConfigParameter.json"))
             {
                 string json = streamReader.ReadToEnd();
-                JavaScriptSerializer jss = new JavaScriptSerializer();
-                uIConfigParameter = jss.Deserialize<UIConfigParameter>(json);
+                values=JsonConvert.DeserializeObject<Dictionary<string,dynamic>>(json);
             }
         }
         public AdminServerNode getAdminServerNode()
         {
-            return uIConfigParameter.adminServerNode;
-            //return (AdminServerNode)uIConfigParameter.adminServerNode.Clone();
+            string json = Convert.ToString(values["adminServerNode"]);
+            AdminServerNode adminServerNode=new AdminServerNode(json,this.adminServer);
+            return adminServerNode;
         }
         public RootNode getRootNode()
         {
-            return uIConfigParameter.rootNode;
-            // return (RootNode)uIConfigParameter.rootNode.Clone();
+            string json = Convert.ToString(values["RootNode"]);
+            RootNode rootNode = new RootNode(json ,this.adminServer);
+            return rootNode;
         }
-        public AdminServerAdministrationNode getAdminServerAdministrationNode()
+        public dynamic getObj(string key)
         {
-            return uIConfigParameter.adminServerAdministrationNode;
-        }
-        public AdminUserAdministrationNode getAdminUserAdministrationNode()
-        {
-            return uIConfigParameter.adminUserAdministrationNode;
-        }
-        public FtpServerListNode getFtpServerListNode()
-        {
-            return uIConfigParameter.ftpServerListNode;
-        }
-        public FtpServerNode getFtpServerNode()
-        {
-            return uIConfigParameter.ftpServerNode;
-        }
-        public FtpUserGroupsListNode getFtpUserGroupsListNode()
-        {
-            return uIConfigParameter.ftpUserGroupsListNode;
-        }
-        public FtpUsersListNode getFtpUsersListNode()
-        {
-            return uIConfigParameter.ftpUsersListNode;
+            return values[key];
         }
     }
 }
