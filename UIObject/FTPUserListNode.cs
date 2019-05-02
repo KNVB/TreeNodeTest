@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using AdminServerObject;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace UIObject
 {
-    public class FTPUserListNode : Node
+    public class FtpUserListNode : Node
     {
-        public FTPUserListNode(JToken token) : base(token)
+        string serverId;
+        public FtpUserListNode(JToken token, AdminServer adminServer, string serverId) : base(token, adminServer)
         {
             nodeType = NodeType.FTPUserListNode;
+            this.serverId = serverId;
         }
     }
 }

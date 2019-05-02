@@ -49,10 +49,10 @@
     <Compile Include="AdminServerAdministrationNode.cs" />
     <Compile Include="AdminServerNode.cs" />
     <Compile Include="AdminUserAdministrationNode.cs" />
-    <Compile Include="FTPServerListNode.cs" />
-    <Compile Include="FTPServerNode.cs" />
-    <Compile Include="FTPUserGroupsListNode.cs" />
-    <Compile Include="FTPUserListNode.cs" />
+    <Compile Include="FtpServerListNode.cs" />
+    <Compile Include="FtpServerNode.cs" />
+    <Compile Include="FtpUserGroupsListNode.cs" />
+    <Compile Include="FtpUserListNode.cs" />
     <Compile Include="ListItem.cs" />
     <Compile Include="ListItemType.cs" />
     <Compile Include="Node.cs" />

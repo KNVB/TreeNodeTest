@@ -1,12 +1,15 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using AdminServerObject;
+using Newtonsoft.Json.Linq;
 
 namespace UIObject
 {
-    public class FTPUserGroupsListNode:Node
+    public class FtpUserGroupsListNode:Node
     {
-        public FTPUserGroupsListNode(JToken token) : base(token)
+        string serverId;
+        public FtpUserGroupsListNode(JToken token, AdminServer adminServer, string serverId) : base(token, adminServer)
         {
             nodeType = NodeType.FTPUserGroupsListNode;
+            this.serverId= serverId;
         }
     }
 }

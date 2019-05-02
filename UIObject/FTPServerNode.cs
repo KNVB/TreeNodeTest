@@ -4,15 +4,15 @@ using System.Windows.Forms;
 
 namespace UIObject
 {
-    public class FTPServerNode:Node
+    public class FtpServerNode:Node
     {
-        private FTPUserListNode ftpUsersListNode=null;
-        private FTPUserGroupsListNode ftpUserGroupsListNode=null;
-        public FTPServerNode(JToken token, AdminServer adminServer, string serverDesc,string serverId) : base(token, adminServer)
+        private FtpUserListNode ftpUsersListNode=null;
+        private FtpUserGroupsListNode ftpUserGroupsListNode=null;
+        public FtpServerNode(JToken token, AdminServer adminServer, string serverDesc,string serverId) : base(token, adminServer)
         {
             nodeType = NodeType.FTPServerNode;
-            ftpUsersListNode = new FTPUserListNode(token["ftpUsersListNode"]);
-            ftpUserGroupsListNode =new FTPUserGroupsListNode(token["ftpUserGroupsListNode"]);
+            ftpUsersListNode = new FtpUserListNode(token["ftpUsersListNode"], adminServer,serverId);
+            ftpUserGroupsListNode =new FtpUserGroupsListNode(token["ftpUserGroupsListNode"], adminServer, serverId);
             this.Text = serverDesc;
             this.Name = serverId;
             this.Nodes.Add(ftpUsersListNode);

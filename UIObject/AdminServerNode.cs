@@ -6,12 +6,12 @@ namespace UIObject
     public class AdminServerNode : Node
     {
         public AdminServerAdministrationNode adminServerAdministrationNode;
-        public FTPServerListNode ftpServerListNode;
+        public FtpServerListNode ftpServerListNode;
         public AdminServerNode(JToken token, AdminServer adminServer) : base(token, adminServer)
         {
             nodeType = NodeType.AdminServerNode;
             adminServerAdministrationNode =new AdminServerAdministrationNode(token["adminServerAdministrationNode"],adminServer);
-            ftpServerListNode=new FTPServerListNode(token["ftpServerListNode"], adminServer);
+            ftpServerListNode=new FtpServerListNode(token["ftpServerListNode"], adminServer);
             this.Nodes.Add(adminServerAdministrationNode);
             this.Nodes.Add(ftpServerListNode);
         }
