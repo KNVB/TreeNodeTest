@@ -50,6 +50,9 @@
     <Compile Include="AdminServerNode.cs" />
     <Compile Include="AdminUserAdministrationNode.cs" />
     <Compile Include="FTPServerListNode.cs" />
+    <Compile Include="FTPServerNode.cs" />
+    <Compile Include="FTPUserGroupsListNode.cs" />
+    <Compile Include="FTPUserListNode.cs" />
     <Compile Include="ListItem.cs" />
     <Compile Include="ListItemType.cs" />
     <Compile Include="Node.cs" />

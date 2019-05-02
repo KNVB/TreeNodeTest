@@ -49,9 +49,18 @@ namespace TreeNodeTest
                 case NodeType.AdminUserAdministrationNode:
                     MessageBox.Show("Popup Connect Admin. User dialog.");
                     break;
+                case NodeType.FTPServerNode:
+                    ((FTPServerNode)node).handleSelectEvent(listView1);
+                    break;
                 case NodeType.FTPServerListNode:
                      ((FTPServerListNode)node).handleSelectEvent(listView1);
                      break;
+                case NodeType.FTPUserListNode:
+                    MessageBox.Show("Popup FTP User dialog.");
+                    break;
+                case NodeType.FTPUserGroupsListNode:
+                    MessageBox.Show("Popup FTP User group dialog.");
+                    break;
                 case NodeType.RootNode:
                     ((RootNode)node).handleSelectEvent(listView1,  new SortedDictionary<string, AdminServer>());
                     break;

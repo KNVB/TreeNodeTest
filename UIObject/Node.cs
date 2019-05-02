@@ -7,7 +7,7 @@ namespace UIObject
 {
     public class Node : TreeNode
     {
-        internal AdminServer adminServer=null;
+        public AdminServer adminServer=null;
         public int nodeType=-1;
         internal List<string> colunmNameList { get; set; }
         internal string description { get; set; }
@@ -27,9 +27,12 @@ namespace UIObject
             this.SelectedImageIndex = obj.SelectedImageIndex;
             this.ImageIndex = obj.ImageIndex;
             this.description = obj.description;
-            this.colunmNameList = obj.colunmNameList.ToObject<List<string>>();
+            
             this.Text = obj.Text;
             this.Name = obj.Name;
+
+            if (obj.colunmNameList!=null)
+                this.colunmNameList = obj.colunmNameList.ToObject<List<string>>();
         }
         public void initListView(ListView listView)
         {
