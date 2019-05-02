@@ -86,6 +86,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AdminServerObject\AdminServerObject.csproj">
+      <Project>{af4f16e4-15a8-49bc-ae46-4ad1a8afc3c8}</Project>
+      <Name>AdminServerObject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UIObject\UIObject.csproj">
       <Project>{b4a7363c-94ef-424e-8f1d-0f42b5ab2135}</Project>
       <Name>UIObject</Name>

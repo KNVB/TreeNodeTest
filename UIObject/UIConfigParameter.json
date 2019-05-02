@@ -2,7 +2,7 @@
     "adminServerNode": {
         "ImageIndex": 2,
         "SelectedImageIndex": 2,
-        "colunmNameList": [ "Admin. server name", "Description" ],
+        "colunmNameList": [ "Item Name", "Description" ],
         "adminServerAdministrationNode": {
             "Text": "Administration",
             "Name": "Administration",

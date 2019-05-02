@@ -1,22 +1,28 @@
-﻿using Newtonsoft.Json;
-using System;
-
+﻿using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
+using AdminServerObject;
 namespace UIObject
 {
-    internal class AdminServerAdministrationNode:Node
+    public class AdminServerAdministrationNode:Node
     {
-        AdminUserAdministrationNode adminUserAdministrationNode;
-        public AdminServerAdministrationNode(string json,AdminServer adminServer) : base(json,adminServer)
+        public AdminUserAdministrationNode adminUserAdministrationNode;
+        public AdminServerAdministrationNode(JToken token, AdminServer adminServer) : base(token, adminServer)
         {
-            dynamic obj = JsonConvert.DeserializeObject<dynamic>(json);
-            string temp = Convert.ToString(obj["adminUserAdministrationNode"]);
             nodeType = NodeType.AdminServerAdministrationNode;
-            adminUserAdministrationNode=new AdminUserAdministrationNode(temp, adminServer);
+            adminUserAdministrationNode = new AdminUserAdministrationNode(token["adminUserAdministrationNode"], adminServer);
             this.Nodes.Add(adminUserAdministrationNode);
-            this.Text = obj.Text;
-            this.Name = obj.Name;
-
         }
-
+        public void handleSelectEvent(ListView listView)
+        {
+            initListView(listView);
+            ListItem adminUserAdministrationListItem = new ListItem();
+            adminUserAdministrationListItem.ImageIndex = adminUserAdministrationNode.SelectedImageIndex;
+            adminUserAdministrationListItem.Text = adminUserAdministrationNode.Text;
+            adminUserAdministrationListItem.Name = adminUserAdministrationNode.Name;
+            adminUserAdministrationListItem.SubItems.Add(adminUserAdministrationNode.description);
+            adminUserAdministrationListItem.relatedNode = adminUserAdministrationNode;
+            listView.Items.Add(adminUserAdministrationListItem);
+            listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
     }
 }

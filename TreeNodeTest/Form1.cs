@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Web.Script.Serialization;
-using Newtonsoft.Json;
-using System.IO;
+using AdminServerObject;
 using UIObject;
 using System.Collections.Generic;
 
@@ -17,22 +15,19 @@ namespace TreeNodeTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            JavaScriptSerializer jss = new JavaScriptSerializer();
             this.Text = Properties.Resources.Software_Name;
             AdminServer adminServer = new AdminServer();
-           
-            UIConfig uiConfig = new UIConfig(adminServer);
-            AdminServerNode adminServerNode = uiConfig.getAdminServerNode();
-            adminServerNode.Text = "ff";
-            RootNode rootNode = uiConfig.getRootNode();
+            UIObjFactory uiObjFactory = new UIObjFactory();
+
+            AdminServerNode adminServerNode = uiObjFactory.getAdminServerNode(adminServer);
+            adminServerNode.Text = "Admin. Server";
+            RootNode rootNode = uiObjFactory.getRootNode();
             rootNode.Text = this.Text;
             rootNode.Name = rootNode.Text;
+
             rootNode.Nodes.Add(adminServerNode);
-            
             treeView1.Nodes.Add(rootNode);
-            treeView1.SelectedNode = rootNode;
-            rootNode.Expand();
-      
+            rootNode.ExpandAll();
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -42,16 +37,23 @@ namespace TreeNodeTest
 
         private void treeView1_Click(Node node)
         {
+            
             switch (node.nodeType)
             {
                 case NodeType.AdminServerNode:
-                    ((AdminServerNode)node).handleSelectEvent(listView1);
+                     ((AdminServerNode)node).handleSelectEvent(listView1);
+                     break;
+                case NodeType.AdminServerAdministrationNode:
+                    ((AdminServerAdministrationNode)node).handleSelectEvent(listView1);
+                    break;
+                case NodeType.AdminUserAdministrationNode:
+                    MessageBox.Show("Popup Connect Admin. User dialog.");
                     break;
                 case NodeType.FTPServerListNode:
-                    ((FTPServerListNode)node).handleSelectEvent(listView1);
-                    break;
+                     ((FTPServerListNode)node).handleSelectEvent(listView1);
+                     break;
                 case NodeType.RootNode:
-                    ((RootNode)node).handleSelectEvent(treeView1, listView1, imageList1, new SortedDictionary<string, AdminServer>());
+                    ((RootNode)node).handleSelectEvent(listView1,  new SortedDictionary<string, AdminServer>());
                     break;
             }
         }
@@ -63,7 +65,7 @@ namespace TreeNodeTest
             }
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void listView1_Click(object sender, EventArgs e)
         {
             ListItem listItem = (ListItem)listView1.SelectedItems[0];
             switch (listItem.ListItemType)
@@ -73,6 +75,16 @@ namespace TreeNodeTest
                     break;
                 case ListItemType.AddFTPServerItem:
                     MessageBox.Show("Popup Add FTP Server dialog.");
+                    break;
+                default:
+                    splitContainer1.SelectNextControl((Control)splitContainer1, true, true, true, true);
+                    Node relatedNode = listItem.relatedNode;
+                    if (relatedNode != null)
+                    {
+                        relatedNode.Expand();
+                        treeView1.SelectedNode = null;
+                        treeView1.SelectedNode = relatedNode;
+                    }
                     break;
             }
         }

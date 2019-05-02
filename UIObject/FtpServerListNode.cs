@@ -1,44 +1,25 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using AdminServerObject;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using AdminServerObject;
 using System.Windows.Forms;
+
 namespace UIObject
 {
     public class FTPServerListNode : Node
     {
-        public ListItem addFTPServerItem = new ListItem();
-        private FTPServerNode ftpServerNode;
-        //private SortedDictionary<string, FtpServerInfo> ftpServerList;
-        public FTPServerListNode(string json, AdminServer adminServer) : base(json, adminServer)
+        // public FTPServerNode ftpServerNodeTemplate { get; set; }
+        public ListItem addFTPServerItem;
+        public FTPServerListNode(JToken token, AdminServer adminServer) : base(token, adminServer)
         {
-            dynamic obj = JsonConvert.DeserializeObject<dynamic>(json);
-            dynamic a = obj["addFTPServerItem"];
             nodeType = NodeType.FTPServerListNode;
-            this.Text = obj.Text;
-            this.Name = obj.Name;
-            addFTPServerItem.ListItemType = ListItemType.AddFTPServerItem;
-            addFTPServerItem.Text = a.Text;
-            addFTPServerItem.Name = a.Name;
-            addFTPServerItem.ImageIndex = a.ImageIndex;
-            string temp = Convert.ToString(obj["ftpServerNode"]);
-            ftpServerNode = new FTPServerNode(temp, adminServer);
-            this.Nodes.Add(ftpServerNode);
+            this.addFTPServerItem = new ListItem(token["addFTPServerItem"]);
         }
+
         public void handleSelectEvent(ListView listView)
         {
-            ColumnHeader header;
-            //FtpServerInfo ftpServerInfo;
-            ListItem listItem;
-            listView.Items.Clear();
-            listView.Columns.Clear();
-            foreach (string headerString in this.colunmNameList)
-            {
-                // MessageBox.Show(headerString);
-                header = new ColumnHeader();
-                header.Text = headerString;
-                listView.Columns.Add(header);
-            }
-            this.addFTPServerItem.parentNode = this;
+            initListView(listView);
+            this.addFTPServerItem.ListItemType = ListItemType.AddFTPServerItem;
             listView.Items.Add(this.addFTPServerItem);
             listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
