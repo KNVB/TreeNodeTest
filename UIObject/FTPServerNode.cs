@@ -20,17 +20,11 @@ namespace UIObject
         }       
         public void handleSelectEvent(ListView listView)
         {
-            ColumnHeader header;
+            
             ListItem listItem;
-            listView.Items.Clear();
-            listView.Columns.Clear();
-            foreach (string headerString in this.colunmNameList)
-            {
-                // MessageBox.Show(headerString);
-                header = new ColumnHeader();
-                header.Text = headerString;
-                listView.Columns.Add(header);
-            }
+
+            initListView(listView);
+
             listItem = new ListItem();
             listItem.Text = ftpUsersListNode.Text;
             listItem.Name = listItem.Text;
