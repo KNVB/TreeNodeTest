@@ -7,7 +7,7 @@ namespace TreeNodeTest
     {
         internal override void doClick(UIManager uiManager)
         {
-            uiManager.refreshFtpServerListNode(relatedNode);
+            uiManager.refreshFtpServerListNode((FtpServerListNode)relatedNode);
             uiManager.selectNode(relatedNode);
         }
     }

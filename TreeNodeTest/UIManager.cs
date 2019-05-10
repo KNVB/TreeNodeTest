@@ -28,9 +28,8 @@ namespace TreeNodeTest
         {
             return rootNode;
         }
-        internal void refreshFtpServerListNode(Node relatedNode)
+        internal void refreshFtpServerListNode(FtpServerListNode ftpServerListNode)
         {
-            FtpServerListNode ftpServerListNode = (FtpServerListNode)relatedNode;
             ftpServerListNode.Nodes.Clear();
             foreach (FtpServerInfo fI in ftpServerListNode.ftpServerList.Values)
             {
