@@ -3,6 +3,12 @@
         "ImageIndex": 2,
         "SelectedImageIndex": 2,
         "colunmNameList": [ "Item Name", "Description" ],
+        "ToolStripItemList": {
+            "DiscoonectAdminServer": {
+                "Text": "Disconnect from the admin. server",
+                "ImageIndex": 5
+            }
+        },
         "adminServerAdministrationNode": {
             "Text": "Administration",
             "Name": "Administration",
@@ -36,6 +42,20 @@
                 "colunmNameList": [ "Item Name", "Description" ],
                 "ImageIndex": 8,
                 "SelectedImageIndex": 8,
+                "ToolStripItemList": {
+                    "StartFTPServer": {
+                        "Text": "Go online",
+                        "ImageIndex": 10
+                    },
+                    "StopFTPServer": {
+                        "Text": "Go offline",
+                        "ImageIndex": 11
+                    },
+                    "DelFTPServer": {
+                        "Text": "Delete this FTP Server instance",
+                        "ImageIndex": 5
+                    }
+                },
                 "ftpUserGroupsListNode": {
                     "Text": "Groups",
                     "Name": "Groups",
@@ -44,13 +64,14 @@
                     "description": "FTP server user group administration."
                 },
                 "ftpUsersListNode": {
+                    "colunmNameList": [ "Name", "Created","Last Login" ],
                     "Text": "Users",
                     "Name": "Users",
                     "ImageIndex": 6,
                     "SelectedImageIndex": 6,
                     "description": "FTP server user administration."
                 }
-            }            
+            }
         }
     },    
     "RootNode": {

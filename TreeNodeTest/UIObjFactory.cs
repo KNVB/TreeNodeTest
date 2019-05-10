@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using AdminServerObject;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace UIObject
+namespace TreeNodeTest
 {
     public class UIObjFactory
     {
@@ -20,12 +18,13 @@ namespace UIObject
                 objectList = JObject.Parse(json);
             }
         }
-        public AdminServerNode getAdminServerNode(AdminServer adminServer)
+        internal AdminServerNode getAdminServerNode(AdminServer adminServer)
         {
-            AdminServerNode adminServerNode=new AdminServerNode(getObj("adminServerNode"),adminServer);
+            AdminServerNode adminServerNode=new AdminServerNode(getObj("adminServerNode"));
+            adminServerNode.adminServer = adminServer;
             return adminServerNode;
         }
-        public RootNode getRootNode()
+        internal RootNode getRootNode()
         {
             RootNode rootNode = new RootNode(getObj("RootNode"));
             return rootNode;

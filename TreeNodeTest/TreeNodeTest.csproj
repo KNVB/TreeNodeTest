@@ -50,14 +50,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddAdminServerItem.cs" />
+    <Compile Include="AddFTPServerItem.cs" />
+    <Compile Include="AdminServerAdministrationNode.cs" />
+    <Compile Include="AdminServerNode.cs" />
+    <Compile Include="AdminUserAdministrationNode.cs" />
+    <Compile Include="ConnectToAdminServerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConnectToAdminServerForm.designer.cs">
+      <DependentUpon>ConnectToAdminServerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FtpServerListNode.cs" />
+    <Compile Include="FtpUserListNode.cs" />
+    <Compile Include="ListItem.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RootNode.cs" />
+    <Compile Include="UIManager.cs" />
+    <Compile Include="UIObjFactory.cs" />
+    <EmbeddedResource Include="ConnectToAdminServerForm.resx">
+      <DependentUpon>ConnectToAdminServerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -81,6 +102,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="UIConfigParameter.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -89,10 +113,6 @@
     <ProjectReference Include="..\AdminServerObject\AdminServerObject.csproj">
       <Project>{af4f16e4-15a8-49bc-ae46-4ad1a8afc3c8}</Project>
       <Name>AdminServerObject</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UIObject\UIObject.csproj">
-      <Project>{b4a7363c-94ef-424e-8f1d-0f42b5ab2135}</Project>
-      <Name>UIObject</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

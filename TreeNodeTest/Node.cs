@@ -1,40 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AdminServerObject;
-using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
 
-namespace UIObject
+namespace TreeNodeTest
 {
-    public class Node : TreeNode
+    internal abstract class Node:TreeNode
     {
-        public AdminServer adminServer=null;
-        public int nodeType=-1;
         internal List<string> colunmNameList { get; set; }
         internal string description { get; set; }
-        internal dynamic obj= null;
-        public Node(JToken token,AdminServer adminServer)
-        {
-            this.adminServer = adminServer;
-            init(token);
-        }
-        public Node(JToken token)
+        internal AdminServer adminServer;
+        internal Node(JToken token)
         {
             init(token);
         }
+        internal virtual void doSelect(UIManager uiManager)
+        {
+
+        }        
         private void init(JToken token)
         {
-            obj = (dynamic)token;
+            dynamic obj = (dynamic)token;
             this.SelectedImageIndex = obj.SelectedImageIndex;
             this.ImageIndex = obj.ImageIndex;
             this.description = obj.description;
-            
+
             this.Text = obj.Text;
             this.Name = obj.Name;
 
-            if (obj.colunmNameList!=null)
+            if (obj.colunmNameList != null)
                 this.colunmNameList = obj.colunmNameList.ToObject<List<string>>();
+            this.ContextMenuStrip = new ContextMenuStrip();
         }
-        public void initListView(ListView listView)
+        /*
+        internal void initListView(ListView listView)
         {
             ColumnHeader header;
             listView.Items.Clear();
@@ -47,20 +47,6 @@ namespace UIObject
                 listView.Columns.Add(header);
             }
         }
-        /*
-        public Node findChildNodeByName(string childNodeName)
-        {
-            Node childNode = null;
-            foreach (Node node in this.Nodes)
-            {
-                if (node.Name.Equals(childNodeName))
-                {
-                    childNode = node;
-                    break;
-                }
-            }
-            return childNode;
-        }*/
-
+        */
     }
 }

@@ -53,8 +53,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
-            this.splitContainer1.Size = new System.Drawing.Size(284, 261);
-            this.splitContainer1.SplitterDistance = 94;
+            this.splitContainer1.Size = new System.Drawing.Size(484, 461);
+            this.splitContainer1.SplitterDistance = 251;
             this.splitContainer1.TabIndex = 0;
             // 
             // treeView1
@@ -65,10 +65,9 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(94, 261);
+            this.treeView1.Size = new System.Drawing.Size(251, 461);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
             // imageList1
             // 
@@ -84,13 +83,15 @@
             this.imageList1.Images.SetKeyName(7, "7.bmp");
             this.imageList1.Images.SetKeyName(8, "8.bmp");
             this.imageList1.Images.SetKeyName(9, "9.bmp");
+            this.imageList1.Images.SetKeyName(10, "Button Play.png");
+            this.imageList1.Images.SetKeyName(11, "Button Stop.png");
             // 
             // listView1
             // 
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(186, 261);
+            this.listView1.Size = new System.Drawing.Size(229, 461);
             this.listView1.SmallImageList = this.imageList1;
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -101,7 +102,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(484, 461);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
