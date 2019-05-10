@@ -19,13 +19,13 @@ namespace TreeNodeTest
         {
 
         }        
-        private void init(JToken token)
+        private void init(JToken token,AdminServer adminServer)
         {
             dynamic obj = (dynamic)token;
             this.SelectedImageIndex = obj.SelectedImageIndex;
             this.ImageIndex = obj.ImageIndex;
             this.description = obj.description;
-
+            this.adminServer = adminServer;
             this.Text = obj.Text;
             this.Name = obj.Name;
 

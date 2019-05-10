@@ -13,13 +13,13 @@ namespace TreeNodeTest
         internal AdminServerAdministrationNode(JToken token) : base(token)
         {
             adminUserAdministrationNode = new AdminUserAdministrationNode(token["adminUserAdministrationNode"]);
-            MessageBox.Show(Convert.ToString(adminServer == null), "AdminServerAdministrationNode");
-            adminUserAdministrationNode.adminServer = adminServer;
+            
             this.Nodes.Clear();
             this.Nodes.Add(adminUserAdministrationNode);
         }
         internal override void doSelect(UIManager uiManager)
         {
+            adminUserAdministrationNode.adminServer = adminServer;
             List<ListItem> itemList = new List<ListItem>();
             ListItem adminUserAdministrationListItem = new ListItem();
             adminUserAdministrationListItem.ImageIndex = adminUserAdministrationNode.SelectedImageIndex;

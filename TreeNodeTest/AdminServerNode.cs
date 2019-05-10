@@ -12,12 +12,9 @@ namespace TreeNodeTest
         internal SortedDictionary<string, dynamic> toolStripItemList;
         internal AdminServerNode(JToken token) : base(token)
         {
-            MessageBox.Show(Convert.ToString(adminServer == null), "adminServerNode");
             toolStripItemList = token["ToolStripItemList"].ToObject<SortedDictionary<string, dynamic>>();
             adminServerAdministrationNode = new AdminServerAdministrationNode(token["adminServerAdministrationNode"]);
             ftpServerListNode = new FtpServerListNode(token["ftpServerListNode"]);
-            adminServerAdministrationNode.adminServer = this.adminServer;
-            ftpServerListNode.adminServer = this.adminServer;
             this.Nodes.Clear();
             this.Nodes.Add(adminServerAdministrationNode);
             this.Nodes.Add(ftpServerListNode);
