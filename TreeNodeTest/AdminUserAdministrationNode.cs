@@ -6,10 +6,10 @@ namespace TreeNodeTest
 {
     internal class AdminUserAdministrationNode : Node
     {
-        internal AdminUserAdministrationNode(JToken token) : base(token)
+        internal AdminUserAdministrationNode(JToken token,AdminServer adminServer, UIManager uiManager) : base(token, adminServer, uiManager)
         {
         }
-        internal override void doSelect(UIManager uiManager)
+        internal override void doSelect()
         {
             MessageBox.Show(Convert.ToString(adminServer == null));
         }

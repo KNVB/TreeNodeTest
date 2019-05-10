@@ -10,14 +10,12 @@ namespace TreeNodeTest
     {
         private AdminServerManager adminServerManager;
         private AddAdminServerItem addAdminServerItem;
-        internal RootNode(JToken token) : base(token)
-        {
+        internal RootNode(JToken token,UIManager uiManager): base(token, uiManager)
+        { 
             addAdminServerItem = new AddAdminServerItem(token["addAdminServerItem"]);
 
         }
-       
-        
-        internal override void doSelect(UIManager uiManager)
+        internal override void doSelect()
         {
             List<ListItem> itemList = new List<ListItem>();
 

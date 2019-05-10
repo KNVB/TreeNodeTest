@@ -8,13 +8,12 @@ namespace TreeNodeTest
     internal class UIManager
     {
         private AdminServerManager adminServerManager;
-        
         private ListView listView;
         private ImageList imageList;
         private RootNode rootNode;
         private SplitContainer splitContainer;
         private TreeView treeView;
-        private UIObjFactory uiObjFactory = new UIObjFactory();
+        private UIObjFactory uiObjFactory = null;
         internal UIManager(TreeView treeView, ListView listView, SplitContainer splitContainer, ImageList imageList, AdminServerManager adminServerManager)
         {
             this.adminServerManager = adminServerManager;
@@ -22,11 +21,29 @@ namespace TreeNodeTest
             this.listView=listView;
             this.imageList= imageList;
             this.splitContainer= splitContainer;
-            rootNode= uiObjFactory.getRootNode();
+            uiObjFactory = new UIObjFactory(this);
+            rootNode = uiObjFactory.getRootNode();
         }
         internal RootNode getRootNode()
         {
             return rootNode;
+        }
+        internal void refreshFtpServerListNode(Node relatedNode)
+        {
+            FtpServerListNode ftpServerListNode = (FtpServerListNode)relatedNode;
+            ftpServerListNode.Nodes.Clear();
+            foreach (FtpServerInfo fI in ftpServerListNode.ftpServerList.Values)
+            {
+                FtpServerNode ftpServerNode = new FtpServerNode(ftpServerListNode.token["ftpServerNode"], ftpServerListNode.adminServer,this, fI.description, fI.serverId);
+                foreach (string key in ftpServerNode.toolStripItemList.Keys)
+                {
+                    ToolStripMenuItem tSI = ftpServerNode.toolStripItemList[key].ToObject<ToolStripMenuItem>();
+                    tSI.Click += (sender, e) => MessageBox.Show(fI.serverId);
+                    ftpServerNode.ContextMenuStrip.Items.Add(tSI);
+                }
+                ftpServerNode.ContextMenuStrip.ImageList = imageList;
+                ftpServerListNode.Nodes.Add(ftpServerNode);
+            }
         }
         internal void refreshRootNode()
         {
@@ -44,13 +61,13 @@ namespace TreeNodeTest
                     tSI.Click += (sender, e) => MessageBox.Show(adminServer.serverName + ":" + adminServer.portNo);
                     adminServerNode.ContextMenuStrip.Items.Add(tSI);
                 }
-                MessageBox.Show(Convert.ToString(adminServerNode.adminServer == null), "UIManager.adminServerNode");
+                
                 adminServerNode.ContextMenuStrip.ImageList = imageList;
                 rootNode.Nodes.Add(adminServerNode);
                 if (key == adminServerManager.lastServerKey)
                 {
                     treeView.SelectedNode = adminServerNode;
-                    adminServerNode.doSelect(this);
+                    adminServerNode.doSelect();
                     adminServerNode.Expand();
                 }
             }            

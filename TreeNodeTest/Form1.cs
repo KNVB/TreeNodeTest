@@ -28,7 +28,7 @@ namespace TreeNodeTest
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             Node n = ((Node)e.Node);
-            n.doSelect(uiManager);
+            n.doSelect();
         }       
      
         private void listView1_Click(object sender, EventArgs e)

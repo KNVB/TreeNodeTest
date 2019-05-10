@@ -67,7 +67,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FtpServerListItem.cs" />
     <Compile Include="FtpServerListNode.cs" />
+    <Compile Include="FtpServerNode.cs" />
     <Compile Include="FtpUserListNode.cs" />
     <Compile Include="ListItem.cs" />
     <Compile Include="Node.cs" />

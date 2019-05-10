@@ -10,22 +10,30 @@ namespace TreeNodeTest
     {
         internal List<string> colunmNameList { get; set; }
         internal string description { get; set; }
+
         internal AdminServer adminServer;
-        internal Node(JToken token)
+        internal UIManager uiManager;
+        internal Node(JToken token, UIManager uiManager)
         {
+            this.uiManager = uiManager;
             init(token);
         }
-        internal virtual void doSelect(UIManager uiManager)
+        internal Node(JToken token,AdminServer adminServer, UIManager uiManager)
+        {
+            this.adminServer = adminServer;
+            this.uiManager = uiManager;
+            init(token);
+        }
+        internal virtual void doSelect()
         {
 
-        }        
-        private void init(JToken token,AdminServer adminServer)
+        }
+        private void init(JToken token)
         {
             dynamic obj = (dynamic)token;
             this.SelectedImageIndex = obj.SelectedImageIndex;
             this.ImageIndex = obj.ImageIndex;
             this.description = obj.description;
-            this.adminServer = adminServer;
             this.Text = obj.Text;
             this.Name = obj.Name;
 

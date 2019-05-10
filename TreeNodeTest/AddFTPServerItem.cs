@@ -13,7 +13,7 @@ namespace TreeNodeTest
         }
         internal override void doClick(UIManager uiManager)
         {
-            MessageBox.Show(Convert.ToString(adminServer == null));
+            
         }
     }
 }

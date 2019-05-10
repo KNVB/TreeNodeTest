@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using System.Windows.Forms;
-using System;
+using AdminServerObject;
 
 namespace TreeNodeTest
 {
@@ -10,16 +9,17 @@ namespace TreeNodeTest
         internal FtpServerListNode ftpServerListNode;
         internal AdminServerAdministrationNode adminServerAdministrationNode;
         internal SortedDictionary<string, dynamic> toolStripItemList;
-        internal AdminServerNode(JToken token) : base(token)
+        internal AdminServerNode(JToken token, AdminServer adminServer, UIManager uiManager) : base(token,adminServer, uiManager)
         {
             toolStripItemList = token["ToolStripItemList"].ToObject<SortedDictionary<string, dynamic>>();
-            adminServerAdministrationNode = new AdminServerAdministrationNode(token["adminServerAdministrationNode"]);
-            ftpServerListNode = new FtpServerListNode(token["ftpServerListNode"]);
+            adminServerAdministrationNode = new AdminServerAdministrationNode(token["adminServerAdministrationNode"],adminServer,uiManager);
+            ftpServerListNode = new FtpServerListNode(token["ftpServerListNode"],adminServer,uiManager);
+            uiManager.refreshFtpServerListNode(ftpServerListNode);
             this.Nodes.Clear();
             this.Nodes.Add(adminServerAdministrationNode);
             this.Nodes.Add(ftpServerListNode);
         }
-        internal override void doSelect(UIManager uiManager)
+        internal override void doSelect()
         {
             List<ListItem> itemList = new List<ListItem>();
             ListItem listItem = new ListItem();
@@ -30,7 +30,7 @@ namespace TreeNodeTest
             listItem.ImageIndex = adminServerAdministrationNode.ImageIndex;
             itemList.Add(listItem);
 
-            listItem = new ListItem();
+            listItem = new FtpServerListItem();
             listItem.Text = ftpServerListNode.Text;
             listItem.Name = listItem.Text;
             listItem.relatedNode = ftpServerListNode;
