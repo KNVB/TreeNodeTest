@@ -22,7 +22,9 @@ namespace TreeNodeTest
             RootNode rootNode = uiManager.getRootNode();
             rootNode.setAdminServerManager(asm);
             rootNode.Text = this.Text;
+            treeView1.BeginUpdate();
             treeView1.Nodes.Add(rootNode);
+            treeView1.EndUpdate();
         }
         
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)

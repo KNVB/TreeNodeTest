@@ -77,14 +77,16 @@
             this.imageList1.Images.SetKeyName(1, "1.bmp");
             this.imageList1.Images.SetKeyName(2, "2.bmp");
             this.imageList1.Images.SetKeyName(3, "3.bmp");
-            this.imageList1.Images.SetKeyName(4, "4.bmp");
-            this.imageList1.Images.SetKeyName(5, "5.bmp");
-            this.imageList1.Images.SetKeyName(6, "6.bmp");
-            this.imageList1.Images.SetKeyName(7, "7.bmp");
-            this.imageList1.Images.SetKeyName(8, "8.bmp");
-            this.imageList1.Images.SetKeyName(9, "9.bmp");
-            this.imageList1.Images.SetKeyName(10, "Button Play.png");
-            this.imageList1.Images.SetKeyName(11, "Button Stop.png");
+            this.imageList1.Images.SetKeyName(4, "8.bmp");
+            this.imageList1.Images.SetKeyName(5, "4.bmp");
+            this.imageList1.Images.SetKeyName(6, "5.bmp");
+            this.imageList1.Images.SetKeyName(7, "9.bmp");
+            this.imageList1.Images.SetKeyName(8, "Button Play.png");
+            this.imageList1.Images.SetKeyName(9, "Button Stop.png");
+            this.imageList1.Images.SetKeyName(10, "6.bmp");
+            this.imageList1.Images.SetKeyName(11, "7.bmp");
+            this.imageList1.Images.SetKeyName(12, "ftp-user-icon.png");
+            this.imageList1.Images.SetKeyName(13, "ftp-user-group-icon.png");
             // 
             // listView1
             // 

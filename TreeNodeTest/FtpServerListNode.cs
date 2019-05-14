@@ -8,7 +8,7 @@ namespace TreeNodeTest
 {
     internal class FtpServerListNode : Node
     {
-        public AddFTPServerItem addFTPServerItem;
+        public AddFtpServerItem addFTPServerItem;
         internal JToken token;
         internal SortedDictionary<string, FtpServerInfo> ftpServerList=new SortedDictionary<string, FtpServerInfo>();
         internal FtpServerListNode(JToken token,AdminServer adminServer, UIManager uiManager) : base(token, adminServer,uiManager)
@@ -23,7 +23,7 @@ namespace TreeNodeTest
             ftpServerInfo.description = "張三_李四";
             ftpServerList.Add(ftpServerInfo.serverId, ftpServerInfo);
 
-            this.addFTPServerItem = new AddFTPServerItem(token["addFTPServerItem"]);
+            this.addFTPServerItem = new AddFtpServerItem(token["addFTPServerItem"]);
             this.token= token;
 
         }
