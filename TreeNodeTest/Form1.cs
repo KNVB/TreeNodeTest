@@ -29,11 +29,6 @@ namespace TreeNodeTest
         {
             ListItem listItem = (ListItem)listView1.SelectedItems[0];
             uiManager.handleListViewClickEvent(listItem);
-            /*
-            ListItem listItem = (ListItem)listView1.SelectedItems[0];
-            listItem.doClick(uiManager);
-            listItem.Selected = false;
-            */
         }
     }
 }
