@@ -1,58 +1,72 @@
 ﻿using AdminServerObject;
+using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace TreeNodeTest
 {
     internal class UIManager
     {
         private AdminServerManager adminServerManager;
+        private Form1 mainForm;
         private ListView listView;
         private ImageList imageList;
         private RootNode rootNode;
         private SplitContainer splitContainer;
         private TreeView treeView;
         private UIObjFactory uiObjFactory = null;
-        internal UIManager(TreeView treeView, ListView listView, SplitContainer splitContainer, ImageList imageList, AdminServerManager adminServerManager)
+        internal UIManager(Form1 mainForm)
         {
-            this.adminServerManager = adminServerManager;
-            this.treeView=treeView;
-            this.listView=listView;
-            this.imageList= imageList;
-            this.splitContainer= splitContainer;
-            uiObjFactory = new UIObjFactory(this);
-            rootNode = uiObjFactory.getRootNode();
+            adminServerManager = new AdminServerManager();
+            uiObjFactory = new UIObjFactory();
+            this.mainForm = mainForm;
+            this.treeView = mainForm.treeView1;
+            this.listView = mainForm.listView1;
+            this.imageList = mainForm.imageList1;
+            this.splitContainer = mainForm.splitContainer1;
         }
-        internal string getMessageText(string key)
+
+       
+
+        internal void handleListViewClickEvent(ListItem listItem)
         {
-            return uiObjFactory.getMessageText(key);
+            listItem.doClick(this);
+            listItem.Selected = false;
         }
-        internal string getLabelText(string key)
+        internal void handleNodeSelectEvent(Node n)
         {
-            return (uiObjFactory.getLabel(key));
+            n.doSelect();
         }
-        internal RootNode getRootNode()
+        internal void initMainForm()
         {
-            return rootNode;
+            rootNode = new RootNode(null, this);
+            rootNode.init(uiObjFactory.getObj("RootNode"));
+            rootNode.addAdminServerItem = new AddAdminServerItem(uiObjFactory.getObj("RootNode")["addAdminServerItem"]);
+            rootNode.setAdminServerManager(adminServerManager);
+            this.mainForm.Text=uiObjFactory.getLabel("AppName");
+            rootNode.Text = this.mainForm.Text;
+            treeView.BeginUpdate();
+            treeView.Nodes.Add(rootNode);
+            treeView.EndUpdate();
         }
-        internal void popupMessageBox(string message)
+        internal void refreshFtpServerListNode(AdminServer adminServer, FtpServerListNode ftpServerListNode)
         {
-            MessageBox.Show(message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-        }
-        internal void refreshFtpServerListNode(FtpServerListNode ftpServerListNode)
-        {
+            SortedDictionary<string, FtpServerInfo> ftpServerList = adminServer.getFTPServerList();
             ftpServerListNode.Nodes.Clear();
-            foreach (FtpServerInfo fI in ftpServerListNode.ftpServerList.Values)
+            foreach (string serverId in ftpServerList.Keys)
             {
-                FtpServerNode ftpServerNode = new FtpServerNode(ftpServerListNode.token["ftpServerNode"], ftpServerListNode.adminServer,this, fI.description, fI.serverId);
+                FtpServerNode ftpServerNode = new FtpServerNode(adminServer, this,serverId);
+                FtpServerInfo fI = ftpServerList[serverId];
+                ftpServerNode.init(uiObjFactory.getObj("ftpServerNode"));
                 foreach (string key in ftpServerNode.toolStripItemList.Keys)
                 {
                     ToolStripMenuItem tSI = ftpServerNode.toolStripItemList[key].ToObject<ToolStripMenuItem>();
-                    tSI.Click += (sender, e) => MessageBox.Show(fI.serverId);
+                    tSI.Click += (sender, e) => MessageBox.Show(serverId);
                     ftpServerNode.ContextMenuStrip.Items.Add(tSI);
                 }
                 ftpServerNode.ContextMenuStrip.ImageList = imageList;
+                ftpServerNode.Text = fI.description;
+                ftpServerNode.Name = serverId;
                 ftpServerListNode.Nodes.Add(ftpServerNode);
             }
         }
@@ -60,20 +74,19 @@ namespace TreeNodeTest
         {
             splitContainer.SelectNextControl((Control)splitContainer, true, true, true, true);
             treeView.BeginUpdate();
+
             rootNode.Nodes.Clear();
             foreach (string key in adminServerManager.adminServerList.Keys)
             {
                 AdminServer adminServer = adminServerManager.adminServerList[key];
-                AdminServerNode adminServerNode = uiObjFactory.getAdminServerNode(adminServer);
-                adminServerNode.Text = key;
-                adminServerNode.Name = key;
-                foreach(string id in adminServerNode.toolStripItemList.Keys)
+                AdminServerNode adminServerNode = new AdminServerNode(adminServer, this);
+                adminServerNode.init(uiObjFactory.getObj("adminServerNode"),key);
+                foreach (string id in adminServerNode.toolStripItemList.Keys)
                 {
                     ToolStripMenuItem tSI = adminServerNode.toolStripItemList[id].ToObject<ToolStripMenuItem>();
                     tSI.Click += (sender, e) => MessageBox.Show(adminServer.serverName + ":" + adminServer.portNo);
                     adminServerNode.ContextMenuStrip.Items.Add(tSI);
                 }
-                
                 adminServerNode.ContextMenuStrip.ImageList = imageList;
                 rootNode.Nodes.Add(adminServerNode);
                 if (key == adminServerManager.lastServerKey)
@@ -85,194 +98,31 @@ namespace TreeNodeTest
             }
             treeView.EndUpdate();
         }
-        internal void selectNode(Node n)
+        internal void selectNode(Node relatedNode)
         {
-            treeView.SelectedNode = n;
+            treeView.SelectedNode = relatedNode;
         }
-        internal void updateListView(List<string> colunmNameList, List<ListItem> ItemList)
+        internal void updateListView(List<string> colunmNameList, List<ListItem> itemList)
         {
             splitContainer.SelectNextControl((Control)splitContainer, true, true, true, true);
-            this.listView.Items.Clear();
-            this.listView.Columns.Clear();
-            foreach (string headerString in colunmNameList)
+            if ((colunmNameList!=null)&&(colunmNameList.Count>0))
             {
-                ColumnHeader header;
-                header = new ColumnHeader();
-                header.Text = headerString;
-                listView.Columns.Add(header);
+                this.listView.Columns.Clear();
+                foreach (string headerString in colunmNameList)
+                {
+                    ColumnHeader header;
+                    header = new ColumnHeader();
+                    header.Text = headerString;
+                    listView.Columns.Add(header);
+                }
             }
-            foreach (ListItem item in ItemList)
-                listView.Items.Add(item);
+            if ((itemList != null) && (itemList.Count > 0))
+            {
+                this.listView.Items.Clear();
+                foreach (ListItem item in itemList)
+                    listView.Items.Add(item);
+            }
             listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-//-----------------------Get Message Text Start-----------------------------
-        public string getAddFTPServerSuccessMsg()
-        {
-            return getMessageText("AddFTPServerSuccess");
-        }
-        public string getAddressOrPortNotAvailableMsg()
-        {
-            return getMessageText("AddressOrPortNotAvailable");
-        }
-        public string getAdminServerAddedAlreadyMsg()
-        {
-            return getMessageText("AdminServerAddedAlready");
-        }
-        public string getConfirmDelFTPServerMsg()
-        {
-            return getMessageText("ConfirmDelFTPServer");
-        }
-        public string getConfirmDisconnectFromAdminServerMsg()
-        {
-            return getMessageText("ConfirmDisconnectFromAdminServer");
-        }
-        public string getInvalidAdminServerNameOrPortNoMsg()
-        {
-            return getMessageText("InvalidAdminServerNameOrPortNo");
-        }
-        public string getInvalidAdminUserNameOrPasswordMsg()
-        {
-            return getMessageText("InvalidAdminUserOrPassword");
-        }
-        public string getInvalidControlPortNoMsg()
-        {
-            return getMessageText("InvalidControlPortNo");
-        }
-        public string getInvalidPassivePortRangeMsg()
-        {
-            return getMessageText("InvalidPassivePortRange");
-        }
-
-        public string getMissingAdminPortNoMsg()
-        {
-            return getMessageText("MissingAdminPortNo");
-        }
-        public string getMissingAdminServerNameOrIPMsg()
-        {
-            return getMessageText("MissingAdminServerNameOrIP");
-        }
-        public string getMissingAdminUserNameMsg()
-        {
-            return getMessageText("MissingAdminUserName");
-        }
-        public string getMissingAdminUserPasswordMsg()
-        {
-            return getMessageText("MissingAdminUserPassword");
-        }
-        public string getMissingBindingAddressMsg()
-        {
-            return getMessageText("MissingBindingAddress");
-        }
-        public string getMissingFTPServerDescMsg()
-        {
-            return getMessageText("MissingFTPServerDesc");
-        }
-//-----------------------Get Message Text End-------------------------------
-//-----------------------Get Label Start-------------------------------------
-        public string getAddLabel()
-        {
-            return getLabelText("AddLabel");
-        }
-        public string getAddFtpServerFormLabel()
-        {
-            return getLabelText("AddFtpServerFormLabel");
-        }
-        public string getAdminServerLabel()
-        {
-            return getLabelText("AdminServerLabel");
-        }
-        public string getAdminUserFormLabel()
-        {
-            return getLabelText("AdminUserFormLabel");
-        }
-        public string getAllIPAddressLabel()
-        {
-            return getLabelText("AllIPAddressLabel");
-        }
-        public string getCancelButtonLabel()
-        {
-            return getLabelText("CancelButtonLabel");
-        }
-        public string getConfirmLabel()
-        {
-            return getLabelText("ConfirmLabel");
-        }
-        public string getConnectLabel()
-        {
-            return getLabelText("ConnectLabel");
-        }
-        public string getConnectToAdminServerFormLabel()
-        {
-            return getLabelText("ConnectToAdminServerFormLabel");
-        }
-        public string getControlPortDefault21Label()
-        {
-            return getLabelText("ControlPortDefault21Label") + ":";
-        }
-        public string getDeconnectFromAdminServerLabel()
-        {
-            return getLabelText("DeconnectFromAdminServerLabel");
-        }
-        public string getEditFtpServerNetworkPropertiesFormLabel()
-        {
-            return getLabelText("EditFtpServerNetworkPropertiesFormLabel");
-        }
-        public string getExitLabel()
-        {
-            return getLabelText("ExitLabel");
-        }
-        public string getFtpServerDescLabel()
-        {
-            return getLabelText("FtpServerDescLabel") + ":";
-        }
-        public string getFtpServerBindingAddressLabel()
-        {
-            return getLabelText("FtpServerBindingAddressLabel") + ":";
-        }
-        public string getNoAnswerLabel()
-        {
-            return getLabelText("NoAnswerLabel");
-        }
-        public string getPasswordLabel()
-        {
-            return getLabelText("PasswordLabel") + ":";
-        }
-        public string getPassiveModePortRangeLabel()
-        {
-            return getLabelText("PassiveModePortRangeLabel") + ":";
-        }
-        public string getPortNoLabel()
-        {
-            return getLabelText("PortNoLabel") + ":";
-        }
-        public string getRemoveFtpServerLabel()
-        {
-            return getLabelText("RemoveThisFtpServerLabel");
-        }
-        public string getSaveChangeButtonLabel()
-        {
-            return getLabelText("SaveChangeButtonLabel");
-        }
-        public string getServerNameLabel()
-        {
-            return getLabelText("ServerNameLabel") + ":";
-        }
-        public string getSoftwareName()
-        {
-            return getLabelText("SoftwareName");
-        }
-        public string getSupportPassiveModeLabel()
-        {
-            return getLabelText("SupportPassiveModeLabel") + ":";
-        }
-        public string getUserNameLabel()
-        {
-            return getLabelText("UserNameLabel") + ":";
-        }
-        public string getYesAnswerLabel()
-        {
-            return getLabelText("YesAnswerLabel");
-        }
-//-----------------------Get Label End-------------------------------------
     }
 }

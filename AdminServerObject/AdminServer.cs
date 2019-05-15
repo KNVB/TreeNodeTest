@@ -23,7 +23,7 @@ namespace AdminServerObject
         private WebSocket _websocket=null;
         private string errorMessage = "";
         private static readonly ILog logger = LogManager.GetLogger(typeof(AdminServer));
-
+        private SortedDictionary<string, FtpServerInfo> ftpServerList = new SortedDictionary<string, FtpServerInfo>();
         public int portNo;
         public string serverName  { get; set; }
         public AdminServer()
@@ -32,6 +32,16 @@ namespace AdminServerObject
             messageCoder = new MessageCoder();
             string log4netConfigFilePath = AppDomain.CurrentDomain.BaseDirectory + "log4net.config";
             XmlConfigurator.Configure(new FileInfo(log4netConfigFilePath));
+
+            FtpServerInfo ftpServerInfo = new FtpServerInfo();
+            ftpServerInfo.serverId = "QQKK";
+            ftpServerInfo.description = "陳大文";
+            ftpServerList.Add(ftpServerInfo.serverId, ftpServerInfo);
+
+            ftpServerInfo = new FtpServerInfo();
+            ftpServerInfo.serverId = "4466";
+            ftpServerInfo.description = "張三_李四";
+            ftpServerList.Add(ftpServerInfo.serverId, ftpServerInfo);
         }
         public ServerResponse addFtpServer(FtpServerInfo ftpServerInfo)
         {
@@ -113,6 +123,8 @@ namespace AdminServerObject
         }
         public SortedDictionary<string, FtpServerInfo> getFTPServerList()
         {
+            return this.ftpServerList;
+            /*
             SortedDictionary<string, FtpServerInfo> result = null;
             Request request = new Request();
             request.action = "GetFTPServerList";
@@ -127,6 +139,7 @@ namespace AdminServerObject
                 throw websocketException;
             }
             return result;
+            */
         }
         public List<string>getIPAddressList()
         {

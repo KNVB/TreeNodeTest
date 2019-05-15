@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using AdminServerObject;
 using Newtonsoft.Json.Linq;
-using AdminServerObject;
-
+using System.Collections.Generic;
 namespace TreeNodeTest
 {
     internal class AdminServerAdministrationNode : Node
     {
-        public AdminUserAdministrationNode adminUserAdministrationNode;
-        internal AdminServerAdministrationNode(JToken token, AdminServer adminServer, UIManager uiManager) : base(token,adminServer, uiManager)
+        internal AdminUserAdministrationNode adminUserAdministrationNode;
+        internal AdminServerAdministrationNode(AdminServer adminServer, UIManager uiManager) : base(adminServer, uiManager)
         {
-
-            adminUserAdministrationNode = new AdminUserAdministrationNode(token["adminUserAdministrationNode"],adminServer, uiManager);
-            
-            this.Nodes.Clear();
-            this.Nodes.Add(adminUserAdministrationNode);
         }
         internal override void doSelect()
         {
@@ -27,6 +21,14 @@ namespace TreeNodeTest
             adminUserAdministrationListItem.relatedNode = adminUserAdministrationNode;
             itemList.Add(adminUserAdministrationListItem);
             uiManager.updateListView(this.colunmNameList, itemList);
+        }
+        internal void init(JToken token)
+        {
+            base.init(token);
+            adminUserAdministrationNode = new AdminUserAdministrationNode(adminServer, uiManager);
+            adminUserAdministrationNode.init(token["adminUserAdministrationNode"]);
+            this.Nodes.Clear();
+            this.Nodes.Add(adminUserAdministrationNode);
         }
     }
 }

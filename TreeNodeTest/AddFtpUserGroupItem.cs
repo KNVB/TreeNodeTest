@@ -2,9 +2,10 @@
 using Newtonsoft.Json.Linq;
 namespace TreeNodeTest
 {
-    internal class AddFtpUserGroupItem : ListItem
+    internal class AddFtpUserGroupItem:ListItem
     {
         internal AdminServer adminServer;
+        internal string serverId;
         internal AddFtpUserGroupItem(JToken token) : base(token)
         {
 

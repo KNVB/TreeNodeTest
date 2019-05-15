@@ -14,10 +14,8 @@ namespace TreeNodeTest
         JObject labelList;
         JObject objectList;
         string json;
-        UIManager uiManager;
-        internal UIObjFactory(UIManager uiManager)
+        internal UIObjFactory()
         {
-            this.uiManager = uiManager;
             using (StreamReader streamReader = new StreamReader(@"json\MessageText.json"))
             {
                 json = streamReader.ReadToEnd();
@@ -34,11 +32,6 @@ namespace TreeNodeTest
                 objectList = JObject.Parse(json);
             }
         }
-        internal AdminServerNode getAdminServerNode(AdminServer adminServer)
-        {
-            AdminServerNode adminServerNode=new AdminServerNode(getObj("adminServerNode"),adminServer,uiManager);
-            return adminServerNode;
-        }
         internal string getMessageText(string key)
         {
             return (string)messageTextList[key];
@@ -46,11 +39,6 @@ namespace TreeNodeTest
         internal string getLabel(string key)
         {
             return (string)labelList[key];
-        }
-        internal RootNode getRootNode()
-        {
-            RootNode rootNode = new RootNode(getObj("RootNode"), uiManager);
-            return rootNode;
         }
         internal JToken getObj(string key)
         {

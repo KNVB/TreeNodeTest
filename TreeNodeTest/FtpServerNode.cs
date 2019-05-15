@@ -1,34 +1,37 @@
 ﻿using AdminServerObject;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-
 namespace TreeNodeTest
 {
-    internal class FtpServerNode:Node
+    internal class FtpServerNode : Node
     {
-        internal FtpUserListNode ftpUserListNode;
-        internal FtpUserGroupsListNode ftpUserGroupsListNode;
+        internal FtpUserGroupsListNode ftpUserGroupsListNode = null;
+        internal FtpUserListNode ftpUsersListNode = null;
+        internal FtpServerNetworkPropertiesNode ftpServerNetworkPropertiesNode = null;
+        internal string serverId;
         internal SortedDictionary<string, dynamic> toolStripItemList;
-        internal FtpServerNode(JToken token, AdminServer adminServer, UIManager uiManager, string serverDesc,string serverId) : base(token, adminServer, uiManager)
+        public FtpServerNode(AdminServer adminServer, UIManager uiManager,string serverId) : base(adminServer, uiManager)
         {
-            toolStripItemList = token["ToolStripItemList"].ToObject<SortedDictionary<string, dynamic>>();
-            ftpUserListNode = new FtpUserListNode(token["ftpUsersListNode"], adminServer, uiManager, serverId);
-            ftpUserGroupsListNode = new FtpUserGroupsListNode(token["ftpUserGroupsListNode"], adminServer,uiManager, serverId); 
-            this.Text = serverDesc;
-            this.Name = serverId;
-            this.Nodes.Clear();
-            this.Nodes.Add(ftpUserListNode);
-            this.Nodes.Add(ftpUserGroupsListNode);
+            this.serverId = serverId;
         }
         internal override void doSelect()
         {
             List<ListItem> itemList = new List<ListItem>();
             ListItem listItem = new ListItem();
-            listItem.Text = ftpUserListNode.Text;
+
+            listItem.Text = ftpServerNetworkPropertiesNode.Text;
             listItem.Name = listItem.Text;
-            listItem.relatedNode = ftpUserListNode;
-            listItem.SubItems.Add(ftpUserListNode.description);
-            listItem.ImageIndex = ftpUserListNode.ImageIndex;
+            listItem.relatedNode = ftpServerNetworkPropertiesNode;
+            listItem.SubItems.Add(ftpServerNetworkPropertiesNode.description);
+            listItem.ImageIndex = ftpServerNetworkPropertiesNode.ImageIndex;
+            itemList.Add(listItem);
+
+            listItem = new ListItem();
+            listItem.Text = ftpUsersListNode.Text;
+            listItem.Name = listItem.Text;
+            listItem.relatedNode = ftpUsersListNode;
+            listItem.SubItems.Add(ftpUsersListNode.description);
+            listItem.ImageIndex = ftpUsersListNode.ImageIndex;
             itemList.Add(listItem);
 
             listItem = new ListItem();
@@ -40,5 +43,21 @@ namespace TreeNodeTest
             itemList.Add(listItem);
             uiManager.updateListView(this.colunmNameList, itemList);
         }
+        internal void init(JToken token)
+        {
+            base.init(token);
+            toolStripItemList = token["ToolStripItemList"].ToObject<SortedDictionary<string, dynamic>>();
+            ftpServerNetworkPropertiesNode=new FtpServerNetworkPropertiesNode(adminServer, uiManager, serverId);
+            ftpUsersListNode = new FtpUserListNode(adminServer, uiManager, serverId);
+            ftpUserGroupsListNode =new FtpUserGroupsListNode(adminServer, uiManager, serverId);
+
+
+            ftpUsersListNode.init(token["ftpUsersListNode"]);
+            ftpUserGroupsListNode.init(token["ftpUserGroupsListNode"]);
+            ftpServerNetworkPropertiesNode.init(token["ftpServerNetworkPropertiesNode"]);
+            this.Nodes.Add(ftpServerNetworkPropertiesNode);
+            this.Nodes.Add(ftpUsersListNode);
+            this.Nodes.Add(ftpUserGroupsListNode);
+        }
     }
-  }
+}

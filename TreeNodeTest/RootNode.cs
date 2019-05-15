@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AdminServerObject;
 using Newtonsoft.Json.Linq;
-using AdminServerObject;
-using System.Windows.Forms;
-
+using System.Collections.Generic;
 namespace TreeNodeTest
 {
-    internal class RootNode:Node
+    internal class RootNode : Node
     {
         private AdminServerManager adminServerManager;
-        private AddAdminServerItem addAdminServerItem;
-        internal RootNode(JToken token,UIManager uiManager): base(token, uiManager)
-        { 
-            addAdminServerItem = new AddAdminServerItem(token["addAdminServerItem"]);
-
+        internal AddAdminServerItem addAdminServerItem;
+        internal RootNode(AdminServer adminServer, UIManager uiManager) : base(adminServer, uiManager)
+        {
+            
         }
         internal override void doSelect()
         {
@@ -25,12 +21,17 @@ namespace TreeNodeTest
                 listItem.relatedNode = (Node)Nodes.Find(key, true)[0];
                 listItem.Text = key;
                 listItem.Name = listItem.Text;
-                listItem.ImageIndex = 2;
+                listItem.ImageIndex = listItem.relatedNode.ImageIndex;
                 itemList.Add(listItem);
             }
             itemList.Add(this.addAdminServerItem);
-            uiManager.updateListView(this.colunmNameList,itemList);
-        }        
+            uiManager.updateListView(this.colunmNameList, itemList);
+        }
+        internal void init(JToken token)
+        {
+            base.init(token);
+        }
+
         internal void setAdminServerManager(AdminServerManager adminServerManager)
         {
             this.adminServerManager = adminServerManager;

@@ -3,20 +3,25 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 namespace TreeNodeTest
 {
-    internal class FtpUserListNode:Node
+    internal class FtpUserListNode : Node
     {
-        private JToken token;
-        private AddFtpUserItem addFtpUserItem;
-        internal FtpUserListNode(JToken token, AdminServer adminServer, UIManager uiManager, string serverId) : base(token, adminServer, uiManager)
+        string serverId;
+        AddFtpUserItem addFtpUserItem;
+        public FtpUserListNode(AdminServer adminServer, UIManager uiManager, string serverId) : base(adminServer, uiManager)
         {
-            this.token = token;
-            addFtpUserItem= new AddFtpUserItem(token["addFtpUserItem"]); 
+            this.serverId = serverId;
         }
         internal override void doSelect()
         {
             List<ListItem> itemList = new List<ListItem>();
             itemList.Add(addFtpUserItem);
             uiManager.updateListView(this.colunmNameList, itemList);
+        }
+        internal void init(JToken token)
+        {
+            base.init(token);
+            addFtpUserItem = new AddFtpUserItem(token["addFtpUserItem"]);
+            addFtpUserItem.serverId = serverId;
         }
     }
 }

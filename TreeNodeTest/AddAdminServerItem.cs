@@ -4,12 +4,12 @@ using System.Windows.Forms;
 
 namespace TreeNodeTest
 {
-    internal class AddAdminServerItem:ListItem
+    internal class AddAdminServerItem : ListItem
     {
         AdminServerManager adminServerManager;
-        internal AddAdminServerItem(JToken token) : base(token)
+        internal AddAdminServerItem(JToken token) :base(token)
         {
-           
+
         }
         internal void setAdminServerManager(AdminServerManager adminServerManager)
         {

@@ -3,14 +3,19 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 namespace TreeNodeTest
 {
-    internal class FtpUserGroupsListNode:Node
+    internal class FtpUserGroupsListNode : Node
     {
-        private JToken token;
-        private AddFtpUserGroupItem addFtpUserGroupItem;
-        internal FtpUserGroupsListNode(JToken token, AdminServer adminServer, UIManager uiManager, string serverId) : base(token, adminServer, uiManager)
+        string serverId;
+        AddFtpUserGroupItem addFtpUserGroupItem;
+        internal FtpUserGroupsListNode(AdminServer adminServer, UIManager uiManager, string serverId) : base(adminServer, uiManager)
         {
-            this.token = token;
-            addFtpUserGroupItem=new AddFtpUserGroupItem(token["addFtpUserGroupItem"]);
+            this.serverId = serverId;
+        }
+        internal void init(JToken token)
+        {
+            base.init(token);
+            addFtpUserGroupItem = new AddFtpUserGroupItem(token["addFtpUserGroupItem"]);
+            addFtpUserGroupItem.serverId = serverId;
         }
         internal override void doSelect()
         {

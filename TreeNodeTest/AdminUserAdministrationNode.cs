@@ -1,17 +1,11 @@
 ﻿using AdminServerObject;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Windows.Forms;
+
 namespace TreeNodeTest
 {
     internal class AdminUserAdministrationNode : Node
     {
-        internal AdminUserAdministrationNode(JToken token,AdminServer adminServer, UIManager uiManager) : base(token, adminServer, uiManager)
+        internal AdminUserAdministrationNode(AdminServer adminServer, UIManager uiManager) : base(adminServer, uiManager)
         {
-        }
-        internal override void doSelect()
-        {
-            MessageBox.Show(Convert.ToString(adminServer == null));
         }
     }
 }
